@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  vars:
+    requirements: "requirements.txt"
+    scenario_name: "scenario1"
+    key_name: "key_scenario1"
+    infra_state: present
+  roles:
+    - role: darkwizard242.terraform
+    - role: build_infrastructure

@@ -1,0 +1,3 @@
+- src: anton_sidelnikov.terraform
+- src: geerlingguy.nginx
+- src: geerlingguy.certbot

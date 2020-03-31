@@ -1,0 +1,12 @@
+---
+- name: Build infrastructure
+  hosts: test_host
+  roles:
+    - darkwizard242.terraform
+    - build_infrastructure
+  vars:
+    terraform_base_dir: "../infrastructure"
+    scenario_name: "rancher"
+    requirements: "requirements.txt"
+    key_name: "{{ machine_key_name }}"
+    infra_state: absent

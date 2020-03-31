@@ -1,0 +1,45 @@
+---
+- name: Create clouds.yaml on host
+  hosts: localhost
+  become: yes
+  vars:
+   auth_url: "{{ base_auth_url }}"
+   region_name: "eu-de"
+   username: "{{ lookup('env', 'OS_USERNAME') }}"
+   password: "{{ lookup('env', 'OS_PASSWORD') }}"
+   user_domain_name: "{{ lookup('env', 'OS_DOMAIN_NAME') }}"
+   project_name: "{{ lookup('env', 'OS_TENANT_NAME') }}"
+  tasks:
+   - name:  Creation openstack directory
+     file:
+       path: ~/.config/openstack/
+       state: directory
+
+   - name: Filling template of clouds.yaml.j2
+     template:
+       src: clouds.yaml.j2
+       dest: ~/.config/openstack/clouds.yaml
+
+- name: Build infrastructure
+  hosts: localhost
+  become: yes
+  roles:
+    - anton_sidelnikov.terraform
+    - build_infrastructure
+  vars:
+    terraform_base_dir: "../infrastructure"
+    scenario_name: "rancher"
+    requirements: "requirements.txt"
+    key_name: "{{ machine_key_name }}"
+    infra_state: present
+  environment:
+    OS_CLOUD: "devstack"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+    AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+
+- name: Install Rancher
+  hosts: localhost
+  become: yes
+  vars:
+    server_eip: {{ tf_output.outputs['server_fip'].value }}
+  tasks:

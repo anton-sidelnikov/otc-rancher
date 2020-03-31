@@ -1,0 +1,4 @@
+terraform_version: 0.12.20
+machine_key_name: "rancher"
+ansible_ssh_private_key_file: "/tmp/{{ machine_key_name }}"
+base_auth_url: "https://iam.eu-de.otc.t-systems.com:443/v3"

@@ -1,0 +1,20 @@
+---
+- name: Download or create shared private key
+  hosts: all
+  become: yes
+  vars:
+   username: "{{ lookup('env', 'OS_USERNAME') }}"
+   password: "{{ lookup('env', 'OS_PASSWORD') }}"
+   auth_url: https://iam.eu-de.otc.t-systems.com/v3
+   user_domain_name: OTC00000000001000000447
+   project_name: eu-de_rus
+   region_name: eu-de
+  tasks:
+   - name:  Creation openstack directory
+     file:
+       path: ~/.config/openstack/
+       state: directory
+   - name: Filling template of clouds.yaml.j2
+     template:
+       src: clouds.yaml.j2
+       dest: ~/.config/openstack/clouds.yaml

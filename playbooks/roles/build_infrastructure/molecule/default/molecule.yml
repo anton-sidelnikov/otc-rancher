@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+  options:
+    managed: False
+platforms:
+  - name: instance
+    image: python:3.7
+provisioner:
+  name: ansible
+  connection_options:
+    ansible_python_interpreter: "PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-packages /usr/bin/env python"
+  inventory:
+    group_vars:
+      all:
+        scenario_name: "scenario1"
+        terraform_base_dir: "infrastructure"
+        tmp_dir: "/tmp"
+scenario:
+  test_sequence:
+    - lint
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
+verifier:
+  name: testinfra
+
