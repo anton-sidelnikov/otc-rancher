@@ -42,23 +42,10 @@
   become: yes
   vars:
     server_eip: "{{ tf_output.outputs['server_fip'].value }}"
+    ansible_ssh_private_key_file: "/tmp/{{ machine_key_name }}"
   tasks:
   - name: Register Rancher
     add_host:
       name: "Rancher"
       ansible_host: "{{ server_eip }}"
       ansible_ssh_user: "linux"
-
-- name: Wait for Rancher
-  hosts: Rancher
-  gather_facts: no
-  tasks:
-  - name: Wait for host to be up
-    wait_for_connection:
-      timeout: 120
-
-- name: Install Rancher
-  hosts: Rancher
-  become: yes
-  roles:
-    - rancher
