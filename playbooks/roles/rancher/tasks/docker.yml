@@ -8,6 +8,7 @@
   apt:
     name:
       - python-setuptools
+      - python3-pip
       - curl
       - jq
 
@@ -25,8 +26,7 @@
 
 - name: install or upgrade docker
   shell: curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
-  when: not docker_installed is success or
-        not docker_installed_version.stdout|search(docker_version|string)
+  when: not docker_installed is success or docker_installed_version.stdout <= docker_version
 
 - name: upgrade pip (Ubuntu)
   pip:
@@ -36,9 +36,13 @@
 
 - name: install additional dependencies (pip)
   pip:
-    name: docker-py
+    executable: pip3
+    name: docker
     state: present
   tags: pip
 
 - name: make sure docker is running
-  service: name=docker state=started enabled=true
+  service:
+    name: docker
+    state: started
+    enabled: true
