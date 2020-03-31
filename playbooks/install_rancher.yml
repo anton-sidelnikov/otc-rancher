@@ -37,9 +37,28 @@
     AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
     AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
 
-- name: Install Rancher
+- name: Register host
   hosts: localhost
   become: yes
   vars:
-    server_eip: {{ tf_output.outputs['server_fip'].value }}
+    server_eip: "{{ tf_output.outputs['server_fip'].value }}"
   tasks:
+  - name: Register Rancher
+    add_host:
+      name: "Rancher"
+      ansible_host: "{{ server_eip }}"
+      ansible_ssh_user: "linux"
+
+- name: Wait for Rancher
+  hosts: Rancher
+  gather_facts: no
+  tasks:
+  - name: Wait for host to be up
+    wait_for_connection:
+      timeout: 120
+
+- name: Install Rancher
+  hosts: Rancher
+  become: yes
+  roles:
+    - rancher

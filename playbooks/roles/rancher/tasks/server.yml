@@ -1,0 +1,23 @@
+---
+- name: Create volume for rancher
+  docker_volume:
+    name: rancher
+
+- name: launch rancher on single node
+  command: docker run -d --name {{ rancher_container_name }} -v rancher:/var/lib/mysql -v /host/rancher:/var/lib/rancher --restart=unless-stopped -p 8080:80 -p {{ rancher_ssl_port }}:443 rancher/rancher:latest
+  ignore_errors: true
+
+- name: Get response from login endpoint using default password
+  uri:
+    url: '{{ rancher_url }}/v3-public/localProviders/local?action=login'
+    method: POST
+    body: {"username":"admin", "password":"admin"}
+    status_code: 201
+    body_format: json
+    validate_certs: False
+  register: login_result
+  until: login_result.status == 201
+  retries: 3
+  delay: 10
+  failed_when: login_result.status not in [201]
+  ignore_errors: true
