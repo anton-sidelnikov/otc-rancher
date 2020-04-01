@@ -4,7 +4,7 @@
     name: rancher
 
 - name: launch rancher on single node
-  command: docker run -d --name {{ rancher_container_name }} -v rancher:/var/lib/mysql -v /host/rancher:/var/lib/rancher --restart=unless-stopped -p 8080:80 rancher/rancher:latest
+  command: docker run -d --name {{ rancher_container_name }} -v rancher:/var/lib/mysql -v /host/rancher:/var/lib/rancher --restart=unless-stopped -p 3001:3001 rancher/rancher:latest
   ignore_errors: true
 
 - name: Get response from login endpoint using default password
