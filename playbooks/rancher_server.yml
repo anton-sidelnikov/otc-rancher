@@ -40,13 +40,7 @@
               - "{{ domain }}"
     - role: geerlingguy.nginx
       vars:
-        rancher_container_name: "rancher_test"
-        rancher_container_port: 8080
         nginx_remove_default_vhost: yes
-        nginx_upstreams:
-          - name: rancher
-            servers:
-              - "{{ rancher_container_name }}:{{ rancher_container_port }}"
         nginx_vhosts:
           - listen: "443 ssl"
             server_name: "{{ domain }}"
@@ -55,7 +49,5 @@
 - name: Install Rancher
   hosts: Rancher
   become: yes
-  vars:
-    rancher_container_name: "rancher_test"
   roles:
     - rancher
