@@ -1,5 +1,5 @@
 docker_version: "18.09.0"
-rancher_container_name: "rancher-server"
+rancher_container_name: "rancher-srv"
 rancher_domain_name: rtest.outcatcher.com
 rancher_url: "https://{{ rancher_domain_name }}"
 validate_certs: true
