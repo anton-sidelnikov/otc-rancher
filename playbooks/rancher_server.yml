@@ -15,9 +15,11 @@
 - name: Cron
   hosts: Rancher
   become: yes
-  apt:
-    name:
-      - cron
+  tasks:
+  - name: Install Crontab
+    apt:
+      name:
+        - cron
 
 - name: Install nginx reverse proxy to Bastion
   hosts: Rancher
