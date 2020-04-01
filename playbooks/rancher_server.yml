@@ -24,6 +24,8 @@
 - name: Install nginx reverse proxy to Bastion
   hosts: Rancher
   become: yes
+  vars_files:
+  - "./vars/nginx_parameters.yml"
   roles:
     - role: geerlingguy.certbot
       vars:
