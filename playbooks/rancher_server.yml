@@ -12,6 +12,31 @@
       ansible_host: "{{ server_eip }}"
       ansible_ssh_user: "linux"
 
+- name: Install nginx reverse proxy to Bastion
+  hosts: Rancher
+  become: yes
+  vars_files:
+  - "./vars/nginx_parameters.yml"
+  roles:
+    - role: geerlingguy.certbot
+      vars:
+        certbot_admin_email: "rancher@{{ domain }}"
+        certbot_create_if_missing: true
+        certbot_create_standalone_stop_services: []
+        certbot_auto_renew_user: linux
+        certbot_auto_renew_minute: "20"
+        certbot_auto_renew_hour: "5"
+        certbot_certs:
+          - domains:
+              - "{{ domain }}"
+    - role: geerlingguy.nginx
+      vars:
+        nginx_remove_default_vhost: yes
+        nginx_vhosts:
+          - listen: "443 ssl"
+            server_name: "{{ domain }}"
+            extra_parameters: "{{ extra_parameters }}"
+
 - name: Install Rancher
   hosts: Rancher
   become: yes
