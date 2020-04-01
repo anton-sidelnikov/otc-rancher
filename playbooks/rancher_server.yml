@@ -12,6 +12,13 @@
       ansible_host: "{{ server_eip }}"
       ansible_ssh_user: "linux"
 
+- name: Cron
+  hosts: Rancher
+  become: yes
+  apt:
+    name:
+      - cron
+
 - name: Install nginx reverse proxy to Bastion
   hosts: Rancher
   become: yes
