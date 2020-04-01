@@ -2,5 +2,5 @@ docker_version: "18.09.0"
 rancher_container_name: "rancher_v2"
 rancher_domain_name: rtest.outcatcher.com
 rancher_url: "https://{{ rancher_domain_name }}"
-validate_certs: true
+certs_path: "/etc/letsencrypt/live/{{ rancher_domain_name }}"
 rancher_ssl_port: 443
