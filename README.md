@@ -42,9 +42,9 @@ export OS_PASSWORD=my_password
 This role installs Rancher 2 (latest version, see rancher.com) with letsencrypt certificates on a custom server using Docker.
 
 ### Role Variables
-docker_version: "18.09" => The docker version you want to install
-rancher_container_name: "rancher_v2" => The name you want for the rancher docker container
-rancher_domain_name: "your_domain_name" => The domain name of Rancher and which you use for letsencrypt
-rancher_url: "https://{{ rancher_domain_name }}" => The url of the rancher server
-certs_path: "/etc/letsencrypt/live/{{ rancher_domain_name }}" => path to letsencrypt certificates
-rancher_ssl_port: 443 => Use a different if you do not desire to use SSL
+- docker_version: "18.09" => The docker version you want to install
+- rancher_container_name: "rancher_v2" => The name you want for the rancher docker container
+- rancher_domain_name: "your_domain_name" => The domain name of Rancher and which you use for letsencrypt
+- rancher_url: "https://{{ rancher_domain_name }}" => The url of the rancher server
+- certs_path: "/etc/letsencrypt/live/{{ rancher_domain_name }}" => path to letsencrypt certificates
+- rancher_ssl_port: 443 => Use a different if you do not desire to use SSL
