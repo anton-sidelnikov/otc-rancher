@@ -41,5 +41,7 @@
 - name: Install Rancher
   hosts: Rancher
   become: yes
+  vars:
+    rancher_domain_name: rtest.outcatcher.com
   roles:
     - rancher
