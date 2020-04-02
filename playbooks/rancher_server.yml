@@ -21,7 +21,7 @@
       name:
         - cron
 
-- name: Install nginx reverse proxy to Bastion
+- name: Install certificates for rancher server
   hosts: Rancher
   become: yes
   roles:
