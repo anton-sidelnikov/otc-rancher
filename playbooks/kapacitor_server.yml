@@ -16,7 +16,7 @@
   hosts: Rancher
   become: yes
   roles:
-    - ansible-kapacitor
+    - influxdata.kapacitor
   vars:
     kapacitor_use_repo: false
     kapacitor_influx:
