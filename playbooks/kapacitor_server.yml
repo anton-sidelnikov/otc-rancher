@@ -16,7 +16,7 @@
   hosts: Rancher
   become: yes
   roles:
-    - kapacitor
+    - ansible-kapacitor
   vars:
     kapacitor_influx:
       - name: "csm"
