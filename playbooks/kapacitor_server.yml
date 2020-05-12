@@ -19,6 +19,8 @@
     - influxdata.kapacitor
   vars:
     kapacitor_use_repo: false
+    kapacitor_ver: "1.5.5"
+    kapacitor_pkg_url: 'https://dl.influxdata.com/kapacitor/releases/kapacitor_{{ kapacitor_ver }}-1_amd64.deb'
     kapacitor_influx:
       - name: "csm"
         enabled: true
