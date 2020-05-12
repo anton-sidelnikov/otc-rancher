@@ -18,6 +18,7 @@
   roles:
     - ansible-kapacitor
   vars:
+    kapacitor_use_repo: false
     kapacitor_influx:
       - name: "csm"
         enabled: true
