@@ -1,0 +1,35 @@
+---
+- name: Register host
+  hosts: localhost
+  become: yes
+  vars:
+    server_eip: "rtest.outcatcher.com"
+    ansible_ssh_private_key_file: "/tmp/{{ machine_key_name }}"
+  tasks:
+  - name: Register Rancher
+    add_host:
+      name: "Rancher"
+      ansible_host: "{{ server_eip }}"
+      ansible_ssh_user: "linux"
+
+- name: Install Rancher
+  hosts: Rancher
+  become: yes
+  roles:
+    - kapacitor
+  vars:
+    kapacitor_influx:
+      - name: "csm"
+        enabled: true
+        default: true
+        urls: ["{{ influx_url }}"]
+        username: "csm"
+        password: "{{ lookup('env', 'INFLUX_PASSWORD') }}"
+        insecure-skip-verify: false
+        timeout: "0s"
+        disable-subscriptions: false
+        subscription-protocol: "http"
+        subscription-mode: "cluster"
+        kapacitor-hostname: "{{ ansible_hostname }}"
+        startup-timeout: "5m0s"
+        subscriptions-sync-interval: "1m0s"
